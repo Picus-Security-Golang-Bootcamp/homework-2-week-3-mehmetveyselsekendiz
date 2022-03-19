@@ -34,6 +34,10 @@ func list_books(book_store map[int]Book){
 	fmt.Println(book_list)
 }
 
+func print_book_by_id(book_store map[int]Book, id int){
+	fmt.Println(book_store[id])
+}
+
 func main() {
 
 	var book_store map[int]Book
@@ -70,5 +74,6 @@ func main() {
 	add_book(book_store,book1)
 	add_book(book_store,book2)
 
-	list_books(book_store)
+	print_book_by_id(book_store,1)
+	print_book_by_id(book_store,2)
 }
