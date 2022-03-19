@@ -35,34 +35,35 @@ func list_books(book_store map[int]Book){
 }
 
 func print_book_by_id(book_store map[int]Book, id int){
-	fmt.Println(book_store[id])
+	if value, ok := book_store[id]; ok {
+		fmt.Println(value)
+	} else {
+		fmt.Println("The book is not found")
+	}
 }
 
 func delete_book_by_id(book_store map[int]Book, id int) Book{
-	var deleted_book = book_store[id]
-	delete(book_store,id)
-	return deleted_book
+	if value, ok := book_store[id]; ok {
+		delete(book_store,id)
+		return value
+	} else {
+		fmt.Println("The book is not found")
+		return Book{}
+	}
 }
 
 func purchase_book(book_store map[int]Book, id int, order int){
-	var selected_book_stock = book_store[id].stock
-	if order > selected_book_stock {
-		fmt.Println("Not enogh book in the store")
-	}else{
-		book := Book{
-			id: id,
-			name: book_store[id].name,
-			page: book_store[id].page,
-			stock: selected_book_stock - order,
-			price: book_store[id].price,
-			stock_code: book_store[id].stock_code,
-			ISBN: book_store[id].ISBN,
-			Author: book_store[id].Author,
+	if value, ok := book_store[id]; ok {
+		if order > value.stock {
+			fmt.Println("Not enogh book in the store")
+		}else{
+			value.stock -= order
+			add_book(book_store, value)
+			print_book_by_id(book_store, id)
 		}
-		add_book(book_store, book)
-		print_book_by_id(book_store, id)
+	} else {
+		fmt.Println("The book is not found")
 	}
-
 }
 
 func main() {
@@ -101,11 +102,11 @@ func main() {
 	add_book(book_store,book1)
 	add_book(book_store,book2)
 
-	//print_book_by_id(book_store,1)
+	//print_book_by_id(book_store,5)
 	//print_book_by_id(book_store,2)
 
-	//fmt.Println(delete_book_by_id(book_store,1))
+	//fmt.Println(delete_book_by_id(book_store,5))
 	//fmt.Println(book_store)
 
-	//purchase_book(book_store,1,12)
+	//purchase_book(book_store,5,11)
 }
