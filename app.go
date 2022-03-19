@@ -23,7 +23,7 @@ type Book struct {
 }
 
 func add_book(book_store map[int]Book, b Book){
-	book_store[len(book_store) + 1] = b
+	book_store[b.id] = b
 }
 
 func list_books(book_store map[int]Book){
@@ -38,13 +38,19 @@ func print_book_by_id(book_store map[int]Book, id int){
 	fmt.Println(book_store[id])
 }
 
+func delete_book_by_id(book_store map[int]Book, id int) Book{
+	var deleted_book = book_store[id]
+	delete(book_store,id)
+	return deleted_book
+}
+
 func main() {
 
 	var book_store map[int]Book
 	book_store = make(map[int]Book)
 
 	book1 := Book{
-		id: len(book_store) + 1,
+		id: 1,
         name: "Book1",
 		page: 111,
 		stock: 11,
@@ -58,7 +64,7 @@ func main() {
     }
 
 	book2 := Book{
-		id: len(book_store) + 1,
+		id: 2,
         name: "Book2",
 		page: 222,
 		stock: 22,
@@ -74,6 +80,9 @@ func main() {
 	add_book(book_store,book1)
 	add_book(book_store,book2)
 
-	print_book_by_id(book_store,1)
-	print_book_by_id(book_store,2)
+	//print_book_by_id(book_store,1)
+	//print_book_by_id(book_store,2)
+
+	fmt.Println(delete_book_by_id(book_store,1))
+	fmt.Println(book_store)
 }
