@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt" 
-	// "strings"
-	// "os"
+	"os"
+	"strconv"
 )
 
 type Author struct {
@@ -114,4 +114,22 @@ func main() {
 	//fmt.Println(book_store)
 
 	//book_store.purchase_book(2,25)
+
+	commands := os.Args[1:]
+
+	switch{
+		case commands[0] == "list" :
+			book_store.list_books()
+		case commands[0] == "get" :
+			id, _ := strconv.Atoi(commands[1])
+			book_store.print_book_by_id(id)
+		case commands[0] == "delete" :
+			id, _ := strconv.Atoi(commands[1])
+			book_store.delete_book_by_id(id)
+		case commands[0] == "buy" :
+			id, _ := strconv.Atoi(commands[1])
+			order, _ := strconv.Atoi(commands[2])
+			book_store.purchase_book(id,order)
+		default : fmt.Println("Command is not defined.")
+	}
 }
