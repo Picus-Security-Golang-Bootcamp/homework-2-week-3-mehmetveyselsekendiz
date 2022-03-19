@@ -26,6 +26,14 @@ func add_book(book_store map[int]Book, b Book){
 	book_store[len(book_store) + 1] = b
 }
 
+func list_books(book_store map[int]Book){
+	var book_list = make([]string, 0)
+	for book := range book_store{
+		book_list = append(book_list, book_store[book].name)
+	}
+	fmt.Println(book_list)
+}
+
 func main() {
 
 	var book_store map[int]Book
@@ -62,5 +70,5 @@ func main() {
 	add_book(book_store,book1)
 	add_book(book_store,book2)
 
-	fmt.Println(book_store)
+	list_books(book_store)
 }
