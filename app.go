@@ -70,6 +70,14 @@ func (bs BookStore) purchase_book(id int, order int){
 	}
 }
 
+func app_usage(){
+	fmt.Println("USAGE")
+	fmt.Println("list: go run main.go list")
+	fmt.Println("get: go run main.go get <bookID>")
+	fmt.Println("delete: go run main.go delete <bookID>")
+	fmt.Println("buy: go run main.go buy <bookID> <quantity>")
+}
+
 func main() {
 
 	book_store := BookStore{
@@ -121,15 +129,43 @@ func main() {
 		case commands[0] == "list" :
 			book_store.list_books()
 		case commands[0] == "get" :
-			id, _ := strconv.Atoi(commands[1])
-			book_store.print_book_by_id(id)
+			if len(commands) < 2{
+				app_usage()
+				break
+			}
+			id, err := strconv.Atoi(commands[1])
+			if err != nil{
+				app_usage()
+			}else{
+				book_store.print_book_by_id(id)
+			}
 		case commands[0] == "delete" :
-			id, _ := strconv.Atoi(commands[1])
-			book_store.delete_book_by_id(id)
+			if len(commands) < 2{
+				app_usage()
+				break
+			}
+			id, err := strconv.Atoi(commands[1])
+			if err != nil{
+				app_usage()
+			}else{
+				book_store.delete_book_by_id(id)
+			}
 		case commands[0] == "buy" :
-			id, _ := strconv.Atoi(commands[1])
-			order, _ := strconv.Atoi(commands[2])
+			if len(commands) < 3{
+				app_usage()
+				break
+			}
+			id, err := strconv.Atoi(commands[1])
+			if err != nil{
+				app_usage()
+				break
+			}
+			order, err := strconv.Atoi(commands[2])
+			if err != nil{
+				app_usage()
+				break
+			}
 			book_store.purchase_book(id,order)
-		default : fmt.Println("Command is not defined.")
+		default : app_usage()
 	}
 }
