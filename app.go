@@ -22,12 +22,16 @@ type Book struct {
 	Author
 }
 
+func add_book(book_store map[int]Book, b Book){
+	book_store[len(book_store) + 1] = b
+}
+
 func main() {
 
 	var book_store map[int]Book
 	book_store = make(map[int]Book)
 
-	b1 := Book{
+	book1 := Book{
 		id: len(book_store) + 1,
         name: "Book1",
 		page: 111,
@@ -41,7 +45,7 @@ func main() {
         },
     }
 
-	b2 := Book{
+	book2 := Book{
 		id: len(book_store) + 1,
         name: "Book2",
 		page: 222,
@@ -55,6 +59,8 @@ func main() {
         },
     }
 
-	fmt.Println(b1)
-	fmt.Println(b2)
+	add_book(book_store,book1)
+	add_book(book_store,book2)
+
+	fmt.Println(book_store)
 }
