@@ -22,29 +22,33 @@ type Book struct {
 	Author
 }
 
-func add_book(book_store map[int]Book, b Book){
-	book_store[b.id] = b
+type BookStore struct {
+	store map[int]Book
 }
 
-func list_books(book_store map[int]Book){
+func (bs BookStore) add_book(b Book){
+	bs.store[b.id] = b
+}
+
+func (bs BookStore) list_books(){
 	var book_list = make([]string, 0)
-	for book := range book_store{
-		book_list = append(book_list, book_store[book].name)
+	for book := range bs.store{
+		book_list = append(book_list, bs.store[book].name)
 	}
 	fmt.Println(book_list)
 }
 
-func print_book_by_id(book_store map[int]Book, id int){
-	if value, ok := book_store[id]; ok {
+func (bs BookStore) print_book_by_id(id int){
+	if value, ok := bs.store[id]; ok {
 		fmt.Println(value)
 	} else {
 		fmt.Println("The book is not found")
 	}
 }
 
-func delete_book_by_id(book_store map[int]Book, id int) Book{
-	if value, ok := book_store[id]; ok {
-		delete(book_store,id)
+func (bs BookStore) delete_book_by_id(id int) Book{
+	if value, ok := bs.store[id]; ok {
+		delete(bs.store,id)
 		return value
 	} else {
 		fmt.Println("The book is not found")
@@ -52,14 +56,14 @@ func delete_book_by_id(book_store map[int]Book, id int) Book{
 	}
 }
 
-func purchase_book(book_store map[int]Book, id int, order int){
-	if value, ok := book_store[id]; ok {
+func (bs BookStore) purchase_book(id int, order int){
+	if value, ok := bs.store[id]; ok {
 		if order > value.stock {
 			fmt.Println("Not enogh book in the store")
 		}else{
 			value.stock -= order
-			add_book(book_store, value)
-			print_book_by_id(book_store, id)
+			bs.add_book(value)
+			bs.print_book_by_id(id)
 		}
 	} else {
 		fmt.Println("The book is not found")
@@ -68,8 +72,9 @@ func purchase_book(book_store map[int]Book, id int, order int){
 
 func main() {
 
-	var book_store map[int]Book
-	book_store = make(map[int]Book)
+	book_store := BookStore{
+		store:  make(map[int]Book),
+	}
 
 	book1 := Book{
 		id: 1,
@@ -99,14 +104,14 @@ func main() {
         },
     }
 
-	add_book(book_store,book1)
-	add_book(book_store,book2)
+	book_store.add_book(book1)
+	book_store.add_book(book2)
 
-	//print_book_by_id(book_store,5)
-	//print_book_by_id(book_store,2)
+	//book_store.list_books()
+	//book_store.print_book_by_id(1)
 
-	//fmt.Println(delete_book_by_id(book_store,5))
+	//fmt.Println(book_store.delete_book_by_id(2))
 	//fmt.Println(book_store)
 
-	//purchase_book(book_store,5,11)
+	//book_store.purchase_book(2,25)
 }
