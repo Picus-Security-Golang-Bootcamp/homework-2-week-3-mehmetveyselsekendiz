@@ -44,6 +44,27 @@ func delete_book_by_id(book_store map[int]Book, id int) Book{
 	return deleted_book
 }
 
+func purchase_book(book_store map[int]Book, id int, order int){
+	var selected_book_stock = book_store[id].stock
+	if order > selected_book_stock {
+		fmt.Println("Not enogh book in the store")
+	}else{
+		book := Book{
+			id: id,
+			name: book_store[id].name,
+			page: book_store[id].page,
+			stock: selected_book_stock - order,
+			price: book_store[id].price,
+			stock_code: book_store[id].stock_code,
+			ISBN: book_store[id].ISBN,
+			Author: book_store[id].Author,
+		}
+		add_book(book_store, book)
+		print_book_by_id(book_store, id)
+	}
+
+}
+
 func main() {
 
 	var book_store map[int]Book
@@ -83,6 +104,8 @@ func main() {
 	//print_book_by_id(book_store,1)
 	//print_book_by_id(book_store,2)
 
-	fmt.Println(delete_book_by_id(book_store,1))
-	fmt.Println(book_store)
+	//fmt.Println(delete_book_by_id(book_store,1))
+	//fmt.Println(book_store)
+
+	//purchase_book(book_store,1,12)
 }
